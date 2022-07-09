@@ -9,8 +9,8 @@ import { Task } from 'src/app/model/Task';
 })
 export class TasksComponent implements OnInit {
 
-//@ts-ignore
-tasks: Task[];
+  //@ts-ignore
+  tasks: Task[];
 
   constructor(private dataHandler: DataHandlerService) { }
 
@@ -18,4 +18,7 @@ tasks: Task[];
     this.dataHandler.taskSubject.subscribe(tasks => this.tasks = tasks);
   }
 
+  toggleTaskCompleted(task: Task): void {
+    task.completed = !task.completed;
+  }
 }

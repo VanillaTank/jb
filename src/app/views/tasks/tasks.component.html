@@ -2,43 +2,72 @@
 	<div class="card-header card-header-warning">
 		<h4 class="card-title">Список задач</h4>
 	</div>
-	<div class="card-body table-responsive">
-		<table class="table table-hover">
-			<thead class="text-warning">
-				<th>#</th>
-				<th>Название</th>
-				<th>Категория</th>
-				<th>Приоритет</th>
-				<th>Дата</th>
-				<th>Статус</th>
-			</thead>
-			<tbody>
-				<tr 
-				  
-				  [class.completed]="task.completed"
-				  *ngFor="let task of tasks; let i = index"
-				>
-					<td>{{i+1}}</td>
-					<td>{{task.title}}</td>
-					<td [class.novalue]="task.category == null">{{task.category != null ? task.category.title : 'Без категории'}}</td>
-					<td [class.novalue]="task.priority == null">{{task.priority != null ? task.priority.title : 'Без приоритета'}}</td>
-					<td [class.novalue]="task.date == null">{{task.date != null ?( task.date | date: 'short' ) : 'Без даты'}}</td>
-					<td>
-						<div class="form-check">
-							<label class="form-check-label">
-								<input 
-								  (click)="toggleTaskCompleted(task)"
-								  [checked]="task.completed" 
-								  class="form-check-input" type="checkbox" value="">
-								<span class="form-check-sign">
-									<span class="check"></span>
-								</span>
-							</label>
-						</div>
-					</td>
-				</tr>
+	<div *ngIf="tasks.length > 0; else noTasks" class="card-body table-responsive">
+		<table [dataSource]="dataSource" mat-table matSort>
+			<ng-container matColumnDef="color">
+				<th *matHeaderCellDef mat-header-cell></th>
+				<td class="col-color" *matCellDef="let task" [style.background-color]="getPriorityColor(task)" mat-cell>
+				</td>
+			</ng-container>
 
-			</tbody>
+			<ng-container matColumnDef="id">
+				<th *matHeaderCellDef mat-header-cell></th>
+				<td class="col-id" *matCellDef="let i = index;" mat-cell>
+					{{i+1}}
+				</td>
+			</ng-container>
+
+			<ng-container matColumnDef="title">
+				<th *matHeaderCellDef mat-header-cell mat-sort-header>Название</th>
+				<td class="col-title" *matCellDef="let task" [class.completed]="task.completed" mat-cell>
+					{{task.title}}</td>
+			</ng-container>
+
+
+			<ng-container matColumnDef="date">
+				<th *matHeaderCellDef mat-header-cell mat-sort-header>Срок</th>
+				<td *matCellDef="let task" class="col-date" mat-cell [ngClass]="{
+					'completed': task.completed,
+					'novalue': task.date == null
+				  }">
+					{{task.date ? (task.date | date: 'short' ): 'Без даты'}}
+				</td>
+			</ng-container>
+
+			<ng-container matColumnDef="priority">
+				<th *matHeaderCellDef mat-header-cell mat-sort-header>Приоритет</th>
+				<td *matCellDef="let task" class="col-priority" mat-cell [ngClass]="{
+					'completed': task.completed,
+					'novalue': task.priority == null
+				  }">
+					{{task.priority ? task.priority.title : 'Без приоритета'}}
+				</td>
+			</ng-container>
+
+			<ng-container matColumnDef="category">
+				<th *matHeaderCellDef mat-header-cell mat-sort-header>Категория</th>
+				<td *matCellDef="let task" mat-cell class="col-category" [ngClass]="{
+					'completed': task.completed,
+					'novalue': task.category == null,
+					'link': !task.completed && task.category
+				  }">
+					{{task.category ? task.category.title : 'Без категории'}}
+				</td>
+			</ng-container>
+
+
+
+			<tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+			<tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+
 		</table>
+
+		<mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons></mat-paginator>
 	</div>
+
+	<ng-template #noTasks>
+		<p class="not-found">
+          Ничего не найдено.
+		</p>
+	</ng-template>
 </div>

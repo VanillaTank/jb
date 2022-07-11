@@ -8,12 +8,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { CategoriesComponent } from './views/categories/categories.component';
 import { TasksComponent } from './views/tasks/tasks.component';
+import { EditTaskDialogComponent } from './views/edit-task-dialog/edit-task-dialog.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         CategoriesComponent,
-        TasksComponent
+        TasksComponent,
+        EditTaskDialogComponent
     ],
     imports: [
         BrowserModule,

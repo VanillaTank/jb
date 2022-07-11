@@ -10,11 +10,8 @@ import { Category } from "./model/Category";
 })
 export class AppComponent implements OnInit {
   title = 'Todo';
-  //@ts-ignore
   tasks: Task[];
-  //@ts-ignore
   categories: Category[];
-  //@ts-ignore
   selectedCategory: Category|null;
 
   constructor(private dataHandler: DataHandlerService) {
@@ -36,9 +33,5 @@ export class AppComponent implements OnInit {
     ).subscribe((t: Task[]) => {
       this.tasks = t;
     })
-  }
-
-  onUpdateTask(task:Task) {
-    console.log(task);
   }
 }

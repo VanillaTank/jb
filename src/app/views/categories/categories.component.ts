@@ -9,20 +9,14 @@ import { DataHandlerService } from 'src/app/services/data-handler.service';
 })
 export class CategoriesComponent implements OnInit {
 
-  // @ts-ignore
   //categories: Category[];
-  // @ts-ignore
   selectedCategory: Category;
 
   constructor(private dataHandler: DataHandlerService) {
   }
 
-  // @ts-ignore
   @Input() categories: Category[];
-  // @ts-ignore
   @Output() selectCategory = new EventEmitter<Category>();
-  // @ts-ignore
-  selectedCategory: Category;
 
   ngOnInit(): void {
     // this.dataHandler.getAllCategories().subscribe(c => this.categories = c);

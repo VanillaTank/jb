@@ -2,7 +2,9 @@
     text-decoration: line-through;
     color: #797979 !important;
 }
-
+.pointer {
+  cursor: pointer;
+}
 .novalue {
     color: #b7b7b7;
 }
